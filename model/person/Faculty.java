@@ -20,6 +20,9 @@ public class Faculty extends Person {
 
     public Faculty(int id, String fullName, String address, String phone, String email, LocalDate dateOfBirth, School school, Department department, FacultyType position, Room office, LocalDate hireDate, boolean availability) {
         super(id, fullName, address, phone, email, dateOfBirth);
+        if (school == null || department == null || position == null || office == null || hireDate == null) {
+            throw new IllegalArgumentException("School, department, position, office, and hire date cannot be null");
+        }
         this.school = school;
         this.department = department;
         this.position = position;
@@ -39,16 +42,47 @@ public class Faculty extends Person {
     public LocalDate getHireDate() { return hireDate; }
     public ArrayList<Course> getCoursesTaught() { return coursesTaught; }
 
-    public void setSchool(School school) { this.school = school; }
-    public void setDepartment(Department department) { this.department = department; }
-    public void setPosition(FacultyType position) { this.position = position; }
-    public void setOfficeLocation(Room office) { this.office = office; }
-    public void setHireDate(LocalDate hireDate) { this.hireDate = hireDate; }
+    public void setSchool(School school) {
+        if (school == null) {
+            throw new IllegalArgumentException("School cannot be null");
+        }
+        this.school = school;
+    }
+    
+    public void setDepartment(Department department) {
+        if (department == null) {
+            throw new IllegalArgumentException("Department cannot be null");
+        }
+        this.department = department;
+    }
+    
+    public void setPosition(FacultyType position) {
+        if (position == null) {
+            throw new IllegalArgumentException("Position cannot be null");
+        }
+        this.position = position;
+    }
+    
+    public void setOfficeLocation(Room office) {
+        if (office == null) {
+            throw new IllegalArgumentException("Office location cannot be null");
+        }
+        this.office = office;
+    }
+    
+    public void setHireDate(LocalDate hireDate) {
+        if (hireDate == null) {
+            throw new IllegalArgumentException("Hire date cannot be null");
+        }
+        this.hireDate = hireDate;
+    }
+    
     public void setProgramDirector(boolean programDirector) { this.programDirector = programDirector; }
     public void setDean(boolean dean) { this.dean = dean; }
 
     public boolean isProgramDirector() { return programDirector; }
     public boolean isDean() { return dean; }
+    
     public boolean isProfessor() {
         return position == FacultyType.PROFESSOR_IN_PRACTICE || 
                position == FacultyType.FULL_PROFESSOR || 
@@ -58,8 +92,7 @@ public class Faculty extends Person {
 
     public void assignCourse(Course course) {
         if (course == null) {
-            System.out.println("Invalid course. Cannot assign null.");
-            return;
+            throw new IllegalArgumentException("Invalid course. Cannot assign null.");
         }
         if (!coursesTaught.contains(course)) {
             coursesTaught.add(course);
